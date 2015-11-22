@@ -1,6 +1,5 @@
 package document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /** 
@@ -49,14 +48,23 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSentences()
 	{
-		int num = 0;
-		if (getText().length() > 0) {
-			num = 1;
-		}
-
+		int num = 0;		
+		String str = getText();
+		if (getText().length() == 0)
+			return num;
+		
 		List<String> tokens = getTokens("[!.?]+");
 		if (tokens.size() > 0) {
 			num = tokens.size();
+		}
+		
+		if (tokens.size() >= 0) {
+			if (str.endsWith("!") || 
+				str.endsWith(".") ||
+				str.endsWith("?")) {				
+			} else {
+				num += 1;
+			}
 		}
 		return num;
 	}
@@ -72,9 +80,13 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSyllables()
 	{
-	    //TODO: Implement this method.  See the Module 1 support videos 
-        // if you need help.
-        return 0;
+		int num = 0;
+
+		List<String> tokens = getTokens("[!.?]+");
+		if (tokens.size() > 0) {
+			num = tokens.size();
+		}
+		return num;
 	}
 	
 	
@@ -98,8 +110,5 @@ public class BasicDocument extends Document
 		testCase(new BasicDocument("Sentences?!"), 3, 1, 1);
 		testCase(new BasicDocument("Lorem ipsum dolor sit amet, qui ex choro quodsi moderatius, nam dolores explicari forensibus ad."),
 		         32, 15, 1);
-		
-		
 	}
-	
 }
