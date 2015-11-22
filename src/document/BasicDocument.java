@@ -59,11 +59,8 @@ public class BasicDocument extends Document
 		}
 		
 		if (tokens.size() >= 0) {
-			if (str.endsWith("!") || 
-				str.endsWith(".") ||
-				str.endsWith("?")) {				
-			} else {
-				num += 1;
+			if (!( str.endsWith("!") || str.endsWith(".") || str.endsWith("?"))) {				
+					num += 1;
 			}
 		}
 		return num;
