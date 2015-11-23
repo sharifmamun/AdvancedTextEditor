@@ -53,15 +53,9 @@ public class BasicDocument extends Document
 		if (getText().length() == 0)
 			return num;
 		
-		List<String> tokens = getTokens("[!.?]+");
+		List<String> tokens = getTokens("[^!.?]+");
 		if (tokens.size() > 0) {
 			num = tokens.size();
-		}
-		
-		if (tokens.size() >= 0) {
-			if (!( str.endsWith("!") || str.endsWith(".") || str.endsWith("?"))) {				
-					num += 1;
-			}
 		}
 		return num;
 	}
@@ -77,15 +71,33 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSyllables()
 	{
+		List<String> words = this.getTokens("[a-zA-Z]+");		
 		int num = 0;
-
-		List<String> tokens = getTokens("[!.?]+");
-		if (tokens.size() > 0) {
-			num = tokens.size();
+		
+		for (String word: words) {
+			BasicDocument bd = new BasicDocument(word);
+			if (word.endsWith("e")){
+				if (eEnding(word)){
+					num += bd.getTokens("[aeyuioAEUIO]+").size()-1;
+				} else {
+					num += bd.getTokens("[aeyuioAEUIO]+").size();
+				}
+			} else {
+				num += bd.getTokens("[aeyuioAEUIO]+").size();
+			}
 		}
 		return num;
 	}
 	
+	private boolean eEnding(String word){
+		String []ending = word.split("[^aeyuioAEYUIO]+e$");		
+        
+		if(ending.length==1 && !word.equals(ending[0])) {			
+			return true;
+		}
+		
+		return false;
+	}
 	
 	/* The main method for testing this class. 
 	 * You are encouraged to add your own tests.  */
@@ -103,6 +115,7 @@ public class BasicDocument extends Document
 				+ "the correct amount of syllables (example, for example), "
 				+ "but most of them will."), 49, 33, 3);
 		testCase(new BasicDocument("Segue"), 2, 1, 1);
+		testCase(new BasicDocument("double"), 1, 1, 1);
 		testCase(new BasicDocument("Sentence"), 2, 1, 1);
 		testCase(new BasicDocument("Sentences?!"), 3, 1, 1);
 		testCase(new BasicDocument("Lorem ipsum dolor sit amet, qui ex choro quodsi moderatius, nam dolores explicari forensibus ad."),
