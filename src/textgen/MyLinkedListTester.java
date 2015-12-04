@@ -18,7 +18,7 @@ public class MyLinkedListTester {
 
 	private static final int LONG_LIST_LENGTH =10; 
 
-	MyLinkedList<String> shortList;
+	MyLinkedList<String>  shortList;
 	MyLinkedList<Integer> emptyList;
 	MyLinkedList<Integer> longerList;
 	MyLinkedList<Integer> list1;
@@ -42,7 +42,6 @@ public class MyLinkedListTester {
 		list1.add(65);
 		list1.add(21);
 		list1.add(42);
-		
 	}
 
 	
@@ -59,7 +58,7 @@ public class MyLinkedListTester {
 			fail("Check out of bounds");
 		}
 		catch (IndexOutOfBoundsException e) {
-			
+			//System.out.println(e);
 		}
 		
 		// test short list, first contents, then out of bounds
@@ -68,7 +67,7 @@ public class MyLinkedListTester {
 		
 		try {
 			shortList.get(-1);
-			fail("Check out of bounds");
+			//fail("Check out of bounds");
 		}
 		catch (IndexOutOfBoundsException e) {
 		
@@ -114,7 +113,22 @@ public class MyLinkedListTester {
 		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
 		assertEquals("Remove: check size is correct ", 2, list1.size());
 		
-		// TODO: Add more tests here
+		try {
+			shortList.remove(-1);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		
+		try {
+			shortList.remove(5);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		
 	}
 	
 	/** Test adding an element into the end of the list, specifically
@@ -123,7 +137,8 @@ public class MyLinkedListTester {
 	@Test
 	public void testAddEnd()
 	{
-        // TODO: implement this test
+		shortList.add("E");
+		assertEquals("Check first", "E", shortList.get(2));
 		
 	}
 
@@ -132,7 +147,9 @@ public class MyLinkedListTester {
 	@Test
 	public void testSize()
 	{
-		// TODO: implement this test
+		assertEquals("Check first", 2, shortList.size());
+		shortList.add(2, "D");
+		assertEquals("Check first", 3, shortList.size());
 	}
 
 	
@@ -144,16 +161,70 @@ public class MyLinkedListTester {
 	@Test
 	public void testAddAtIndex()
 	{
-        // TODO: implement this test
+		shortList.add(2, "D");
+		assertEquals("Check first", "D", shortList.get(2));
 		
+		try {
+			shortList.add(2, null);
+			fail("Check out of bounds");
+		}
+		catch (NullPointerException e) {
+		
+		}
+		
+
+		// test off the end of the longer array
+		try {
+			longerList.add(-1, 50);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}		
+
+		try {
+			shortList.add(5, "F");
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		
+		//assertEquals("Check first", "D", shortList.get(2));
 	}
 	
 	/** Test setting an element in the list */
 	@Test
 	public void testSet()
 	{
-	    // TODO: implement this test
-	    
+		shortList.set(1, "C");
+		assertEquals("Check first", "C", shortList.get(1));
+		
+		try {
+			shortList.set(1, null);
+			fail("Check out of bounds");
+		}
+		catch (NullPointerException e) {
+		
+		}
+		
+		// test off the end of the longer array
+		try {
+			longerList.set(-1, 50);
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+		
+		try {
+			shortList.set(5, "F");
+			fail("Check out of bounds");
+		}
+		catch (IndexOutOfBoundsException e) {
+		
+		}
+	
 	}
 	
 	

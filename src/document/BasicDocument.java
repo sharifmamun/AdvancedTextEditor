@@ -28,9 +28,13 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumWords()
 	{
-		//TODO: Implement this method.  See the Module 1 support videos 
-	    // if you need help.
-	    return 0;
+		int num = 0;
+		
+		List<String> tokens = getTokens("[a-zA-Z]+");
+		if (tokens.size() > 0) {
+			num = tokens.size();
+		}
+		return num;
 	}
 	
 	/**
@@ -44,9 +48,16 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSentences()
 	{
-	    //TODO: Implement this method.  See the Module 1 support videos 
-        // if you need help.
-        return 0;
+		int num = 0;		
+		String str = getText();
+		if (getText().length() == 0)
+			return num;
+		
+		List<String> tokens = getTokens("[^!.?]+");
+		if (tokens.size() > 0) {
+			num = tokens.size();
+		}
+		return num;
 	}
 	
 	/**
@@ -60,11 +71,33 @@ public class BasicDocument extends Document
 	@Override
 	public int getNumSyllables()
 	{
-	    //TODO: Implement this method.  See the Module 1 support videos 
-        // if you need help.
-        return 0;
+		List<String> words = this.getTokens("[a-zA-Z]+");		
+		int num = 0;
+		
+		for (String word: words) {
+			BasicDocument bd = new BasicDocument(word);
+			if (word.endsWith("e")){
+				if (eEnding(word)){
+					num += bd.getTokens("[aeyuioAEUIO]+").size()-1;
+				} else {
+					num += bd.getTokens("[aeyuioAEUIO]+").size();
+				}
+			} else {
+				num += bd.getTokens("[aeyuioAEUIO]+").size();
+			}
+		}
+		return num;
 	}
 	
+	private boolean eEnding(String word){
+		String []ending = word.split("[^aeyuioAEYUIO]+e$");		
+        
+		if(ending.length==1 && !word.equals(ending[0])) {			
+			return true;
+		}
+		
+		return false;
+	}
 	
 	/* The main method for testing this class. 
 	 * You are encouraged to add your own tests.  */
@@ -82,12 +115,10 @@ public class BasicDocument extends Document
 				+ "the correct amount of syllables (example, for example), "
 				+ "but most of them will."), 49, 33, 3);
 		testCase(new BasicDocument("Segue"), 2, 1, 1);
+		testCase(new BasicDocument("double"), 1, 1, 1);
 		testCase(new BasicDocument("Sentence"), 2, 1, 1);
 		testCase(new BasicDocument("Sentences?!"), 3, 1, 1);
 		testCase(new BasicDocument("Lorem ipsum dolor sit amet, qui ex choro quodsi moderatius, nam dolores explicari forensibus ad."),
 		         32, 15, 1);
-		
-		
 	}
-	
 }
