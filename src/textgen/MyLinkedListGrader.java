@@ -74,7 +74,7 @@ public class MyLinkedListGrader {
                 feedback += "** Test #5: Testing list size...";
                 feedback += "Got " + lst.size() + ". ";
 		
-		lst.remove(2);
+		lst.remove(1);
                 feedback += "** Test #6: Removing from the middle...";
                 feedback += "Got " + printListForwards(lst) + ". ";
                 
